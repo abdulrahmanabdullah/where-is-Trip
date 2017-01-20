@@ -1,0 +1,56 @@
+#container{
+         -fx-background: #35B55C;
+         -fx-pref-width: 500px;
+        -fx-padding: 75px;
+        -fx-spacing: 20px;
+
+}
+
+#mainTitle{
+    -fx-font-size: 31px;
+    -fx-text-fill:white ;
+    -fx-background-color:#3535B50C;
+    -fx-border-radius:20;
+    -fx-border-color:black;
+    -fx-background-radius:20;
+    -fx-padding:5px 5px 5px 5px;
+    -fx-underline:false ;
+
+}
+
+.showBudget{
+        /*visibility: hidden;*/
+        -fx-padding:0px 0px 0px 10px;
+}
+
+
+.showMood {
+visibility: hidden;
+}
+
+.play {
+    visibility: visible;
+    -fx-underline:true;
+    -fx-font-size: 20px;
+
+}
+
+
+
+.showTripType{
+           visibility: hidden;
+}
+
+#btn{
+      -fx-padding: 5 5 5 5;
+        -fx-background-insets: 0,0 0 2 0, 0 0 3 0, 0 0 3 0;
+        -fx-background-radius: 8;
+        -fx-background-color:
+            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+            #9d4024,
+            #d86e3a,
+            radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+        -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+        -fx-font-weight: bold;
+        -fx-font-size:20px;
+}

@@ -31,7 +31,8 @@ visibility: hidden;
 .play {
     visibility: visible;
     -fx-underline:true;
-    -fx-font-size: 20px;
+    -fx-font-size: 10px;
+    -fx-padding:5px ;
 
 }
 

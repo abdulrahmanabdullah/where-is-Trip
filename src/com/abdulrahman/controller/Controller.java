@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import com.abdulrahman.model.Budget;
 import com.abdulrahman.model.Mood;
@@ -18,10 +16,12 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller{
+
 
 
     //Declare obj of model classes ..
@@ -29,6 +29,10 @@ public class Controller{
     private Mood mMood ;
     private TripTypeClass mTrip ;
 
+
+    //Declare obj of ControllerData ...
+
+    ControllerData controllerData  ;
 
     //Create variable for mes if user input valid number ...
     private final String MESSAGE = "Please insert any numbers ";
@@ -38,14 +42,18 @@ public class Controller{
 
     //TextFailed ..
     @FXML private TextField budgetTxt ;
-    @FXML private TextField moodTxt ;
-    @FXML private TextField tripTypetxt ;
 
+    //RadioButton
+    @FXML
+    public RadioButton publicId ;
+    public RadioButton enclosedId;
+    public RadioButton loveId;
+    public RadioButton childId;
+    public ToggleGroup moodGroup ;
 
     //IMageView
     @FXML private ImageView errorImage;
-    @FXML private ImageView ErrorMood;
-    @FXML private ImageView ErrorTrip;
+
 
     //TextArea ..
     @FXML private TextArea txtArea ;
@@ -53,8 +61,7 @@ public class Controller{
     //Labels ..
     @FXML private Label mainTitle;
     @FXML private Label showBudget ;
-    @FXML private Label showMood ;
-    @FXML private Label showTripType ;
+
 
 
     //Constructor method ..
@@ -62,6 +69,8 @@ public class Controller{
         mBudget = new Budget();
         mMood = new Mood();
         mTrip = new TripTypeClass();
+
+        controllerData = new ControllerData();
 
     }
 
@@ -71,40 +80,57 @@ public class Controller{
 
     //fill arguments of textField .. Ok let's call this method setValueInfo() ;
 
+//    private void setValueInfo(){
+//        boolean vlidation  = ErrorDetection.isNumber(budgetTxt.getText());
+//        if(vlidation){
+//            int subBudget = Integer.parseInt(budgetTxt.getText());
+//            mBudget.setBudget(subBudget);
+//
+//        }else {
+//
+//        }
+//        String subMood = enclosedId.getText();
+//
+//
+////        String subTrip = tripTypetxt.getText();
+////        mTrip.setTripType(subTrip);
+//
+//    }
+
     private void setValueInfo(){
-        boolean vlidation  = ErrorDetection.isNumber(budgetTxt.getText());
-        if(vlidation){
+        //Budget ...
+
+        // TODO:create try and catch .. Because if user leave this line empty ... Done .
+
+        try {
             int subBudget = Integer.parseInt(budgetTxt.getText());
-            mBudget.setBudget(subBudget);
-
-        }else {
+            controllerData.validationBudget(subBudget);
+            controllerData.setBudget(subBudget);
+        }catch (NumberFormatException ex ){
             errorImage.setVisible(true);
-            showBudget.setText(MESSAGE);
+            showBudget.setText(controllerData.numberOutRange());
             showBudget.getStyleClass().add("play");
-        }
-        String subMood = moodTxt.getText();
-        if(subMood !=null && !subMood.isEmpty()){
-            mMood.setMoodStatus(subMood);
-        }
-        else {
-            ErrorMood.setVisible(true);
-            showMood.setText("Please set your mood");
-            showMood.getStyleClass().add("play");
-            mMood.setMoodStatus("null");
-        }
 
-        String subTrip = tripTypetxt.getText();
-        mTrip.setTripType(subTrip);
+
+        }
+        //Mood
+        String strMood = moodGroup.getSelectedToggle().toString();
+
+        controllerData.setMood(strMood);
+
+        //types
+
+
+
 
     }
 
 
-
     public List<String> showListTrip(int numbers , String status ,String typesList){
         List<String> list = new ArrayList<String>();
-        numbers = mBudget.getBudget();
-        status = mMood.getMoodStatus();
-        typesList = mTrip.getTripType();
+        numbers = controllerData.getBudget();
+        status = controllerData.getMood();
+        typesList = controllerData.getTypes();
         if((numbers >0 && numbers <=100) && (status.equals("happy")) && (typesList.equals("love"))){
             list.add("arguments 1 ");
             list.add("arguments 2 ");
@@ -149,7 +175,9 @@ public class Controller{
     public void randomResult(ActionEvent actionEvent) {
         //Here call setter methods ..
         setValueInfo();
-        for(String key : showListTrip(mBudget.getBudget(),moodTxt.getText(),tripTypetxt.getText())){
+        System.out.println("Budget : " + + controllerData.getBudget() + "  And u Mood : -> " + controllerData.getMood() + " " + controllerData.getTypes());
+        for(String key : showListTrip(controllerData.getBudget(),controllerData.getMood(),controllerData.getTypes())){
+
             txtArea.appendText(key + "\n");
 
         }

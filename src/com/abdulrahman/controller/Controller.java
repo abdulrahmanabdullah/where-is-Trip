@@ -1,36 +1,27 @@
 package com.abdulrahman.controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import com.abdulrahman.model.Budget;
 import com.abdulrahman.model.Mood;
 import com.abdulrahman.model.TripTypeClass;
-import com.abdulrahman.validation.ErrorDetection;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodTextRun;
 import javafx.scene.layout.AnchorPane;
 
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class Controller{
-
 
 
     //Declare obj of model classes ..
     private Budget mBudget ;
     private Mood mMood ;
     private TripTypeClass mTrip ;
-
-
     //Declare obj of ControllerData ...
+
 
     ControllerData controllerData  ;
 
@@ -46,13 +37,14 @@ public class Controller{
     //RadioButton
     @FXML
     public RadioButton publicId ;
+
     public RadioButton enclosedId;
     public RadioButton loveId;
     public RadioButton childId;
     public ToggleGroup moodGroup ;
-
     //IMageView
-    @FXML private ImageView errorImage;
+    @FXML private ImageView doneImage;
+    public ImageView errorImage;
 
 
     //TextArea ..
@@ -75,41 +67,43 @@ public class Controller{
     }
 
 
-
-
-
-    //fill arguments of textField .. Ok let's call this method setValueInfo() ;
-
-//    private void setValueInfo(){
-//        boolean vlidation  = ErrorDetection.isNumber(budgetTxt.getText());
-//        if(vlidation){
-//            int subBudget = Integer.parseInt(budgetTxt.getText());
-//            mBudget.setBudget(subBudget);
-//
-//        }else {
-//
-//        }
-//        String subMood = enclosedId.getText();
-//
-//
-////        String subTrip = tripTypetxt.getText();
-////        mTrip.setTripType(subTrip);
-//
-//    }
-
     private void setValueInfo(){
-        //Budget ...
-
         // TODO:create try and catch .. Because if user leave this line empty ... Done .
-
         try {
             int subBudget = Integer.parseInt(budgetTxt.getText());
-            controllerData.validationBudget(subBudget);
-            controllerData.setBudget(subBudget);
+            boolean testValidation = controllerData.compareInput(Integer.toString(subBudget));
+            //under this line , confirm and check if input string or digit
+            // if digit , check how many digits pass to input .
+            // And it's done , yes every thing is okay . *_*
+            if(testValidation){
+                        if(controllerData.compareInteger(Integer.toString(subBudget))){
+                            // after check all statement set value to budget .
+                            controllerData.setBudget(subBudget);
+                            // hold waring image
+                            errorImage.setVisible(false);
+                            /// show success image .
+                            doneImage.setVisible(true);
+                            // call style for budget image ..
+                            showBudget.getStyleClass().add("done");
+                            // this line for check if statements is fine or not ..
+                            showBudget.setText("Yes it's ");
+
+                        }
+                        // if user input value over three digit .
+                        else{
+                            controllerData.setBudget(0);
+                            showBudget.setText("we can accept three digit ");
+                        }
+           }
+
+            // if user input empty value or insert any char .
         }catch (NumberFormatException ex ){
+            // first hold true image
+            doneImage.setVisible(false);
+            //
             errorImage.setVisible(true);
-            showBudget.setText(controllerData.numberOutRange());
-            showBudget.getStyleClass().add("play");
+            showBudget.setText("set number Please .");
+            showBudget.getStyleClass().add("error");
 
 
         }
@@ -175,6 +169,8 @@ public class Controller{
     public void randomResult(ActionEvent actionEvent) {
         //Here call setter methods ..
         setValueInfo();
+        String testStr  = Integer.toString(20);
+//        System.out.println(controllerData.compareInput("asd"));
         System.out.println("Budget : " + + controllerData.getBudget() + "  And u Mood : -> " + controllerData.getMood() + " " + controllerData.getTypes());
         for(String key : showListTrip(controllerData.getBudget(),controllerData.getMood(),controllerData.getTypes())){
 

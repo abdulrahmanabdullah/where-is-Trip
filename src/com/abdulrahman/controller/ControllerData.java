@@ -17,10 +17,7 @@ public class ControllerData {
     private String types ;
 
 
-    String messageNumber = "Your number out of the range , set three digits number ";
-
-
-
+    public static String  messageNumber = "Your number out of the range , set three digits number ";
     public ControllerData(){
 
     }
@@ -39,12 +36,51 @@ public class ControllerData {
             }
  }
 
+    /*
+    * Now i need to methods
+    * First call compareInput and types int ;
+    * Second call compareInteger and types int ;
+    * */
+    public boolean compareInput(String input){
+
+        String regex = "[\\d]+";
+        Pattern p = Pattern.compile(regex);
+        Matcher matcher = p.matcher(input);
+
+        boolean isMatch = matcher.matches();
+
+        if(isMatch){
+            return isMatch ;
+        }else {
+            System.out.println("u insert String ");
+            return isMatch = false ;
+        }
+
+    }
+
+
+    public boolean compareInteger(String input){
+        String regex = "[\\d]{1,3}";
+        Pattern p = Pattern.compile(regex);
+        Matcher matcher = p.matcher(input);
+
+        boolean isMatch = matcher.matches();
+
+        if(isMatch){
+            return isMatch ;
+        }else {
+            System.out.println("We can accept three digit  ");
+            return isMatch= false  ;
+        }
+    }
+
+
     public String numberOutRange(){
         return messageNumber;
     }
 
     public int getBudget() {
-        return validationBudget(budget);
+        return budget;
     }
 
     public void setBudget(int budget) {

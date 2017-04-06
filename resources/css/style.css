@@ -1,6 +1,6 @@
 #container{
          -fx-background: #35B55C;
-         -fx-pref-width: 500px;
+         -fx-pref-width: 600px;
         -fx-padding: 75px;
         -fx-spacing: 20px;
 
@@ -28,19 +28,22 @@
 visibility: hidden;
 }
 
-.play {
+.error {
     visibility: visible;
-    -fx-underline:true;
-    -fx-font-size: 10px;
-    -fx-padding:5px ;
+
+    -fx-margin:10px ;
+
+}
+.done{
+        visibility: visible;
+        -fx-underline:true;
+        -fx-font-size: 10px;
+        -fx-padding:5px ;
 
 }
 
 
 
-.showTripType{
-           visibility: hidden;
-}
 
 #btn{
       -fx-padding: 5 5 5 5;

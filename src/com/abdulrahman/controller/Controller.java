@@ -37,13 +37,13 @@ public class Controller{
     //RadioButton
     @FXML
     public RadioButton publicId ;
-
     public RadioButton enclosedId;
     public RadioButton loveId;
     public RadioButton childId;
     public ToggleGroup moodGroup ;
     //IMageView
-    @FXML private ImageView doneImage;
+    @FXML
+    private ImageView doneImage;
     public ImageView errorImage;
 
 
@@ -58,11 +58,8 @@ public class Controller{
 
     //Constructor method ..
     public Controller(){
-        mBudget = new Budget();
-        mMood = new Mood();
-        mTrip = new TripTypeClass();
-
         controllerData = new ControllerData();
+
 
     }
 
@@ -76,7 +73,8 @@ public class Controller{
             // if digit , check how many digits pass to input .
             // And it's done , yes every thing is okay . *_*
             if(testValidation){
-                        if(controllerData.compareInteger(Integer.toString(subBudget))){
+                boolean compareInteger = controllerData.compareInteger(Integer.toString(subBudget));
+                         if(compareInteger){
                             // after check all statement set value to budget .
                             controllerData.setBudget(subBudget);
                             // hold waring image
@@ -92,6 +90,7 @@ public class Controller{
                         // if user input value over three digit .
                         else{
                             controllerData.setBudget(0);
+                            errorImage.setVisible(true);
                             showBudget.setText("we can accept three digit ");
                         }
            }
@@ -100,15 +99,25 @@ public class Controller{
         }catch (NumberFormatException ex ){
             // first hold true image
             doneImage.setVisible(false);
-            //
+            // show error image
             errorImage.setVisible(true);
+            // show message about the error .
             showBudget.setText("set number Please .");
+            // call style error class .
             showBudget.getStyleClass().add("error");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning Dialog ");
+            alert.setHeaderText("Set any number please ..!  ");
+            alert.showAndWait();
 
 
         }
+
+
         //Mood
-        String strMood = moodGroup.getSelectedToggle().toString();
+
+
+        String strMood = publicId.getText();
 
         controllerData.setMood(strMood);
 
@@ -125,7 +134,7 @@ public class Controller{
         numbers = controllerData.getBudget();
         status = controllerData.getMood();
         typesList = controllerData.getTypes();
-        if((numbers >0 && numbers <=100) && (status.equals("happy")) && (typesList.equals("love"))){
+        if((numbers >0 && numbers <=100) && (status.equals("public")) && (typesList.equals("null"))){
             list.add("arguments 1 ");
             list.add("arguments 2 ");
             list.add("arguments 3 ");
@@ -169,12 +178,10 @@ public class Controller{
     public void randomResult(ActionEvent actionEvent) {
         //Here call setter methods ..
         setValueInfo();
-        String testStr  = Integer.toString(20);
-//        System.out.println(controllerData.compareInput("asd"));
         System.out.println("Budget : " + + controllerData.getBudget() + "  And u Mood : -> " + controllerData.getMood() + " " + controllerData.getTypes());
         for(String key : showListTrip(controllerData.getBudget(),controllerData.getMood(),controllerData.getTypes())){
 
-            txtArea.appendText(key + "\n");
+            txtArea.appendText(key + "\n" );
 
         }
 

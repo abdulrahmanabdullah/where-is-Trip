@@ -1,5 +1,7 @@
 package com.abdulrahman.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,6 +12,7 @@ import com.abdulrahman.model.TripTypeClass;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,51 +118,80 @@ public class Controller{
 
 
         //Mood
+//        checkMood();
 
-
-        String strMood = publicId.getText();
-
-        controllerData.setMood(strMood);
 
         //types
-
-
+        checkTypes();
 
 
     }
 
+    // check mood status , if user check public return true , if check enclosed return false ..
+    public boolean checkMood(){
+        boolean checker ;
+            if(publicId.isSelected()){
+                controllerData.setMood("public");
+                checker = true;
+            }else {
+                controllerData.setMood("enclosed");
+                checker = false;
+            }
 
-    public List<String> showListTrip(int numbers , String status ,String typesList){
+        return checker;
+    }
+
+    // check tripTypes status , if user check with-love return true , if check with-child return false ..
+    public boolean checkTypes(){
+        boolean checker ;
+        if(loveId.isSelected()){
+            controllerData.setTypes("with-love");
+            checker = true;
+        }else{
+            controllerData.setTypes("with-child");
+            checker = false ;
+        }
+        return checker;
+    }
+
+
+    // putting three arguments to this method because , i want pass getter method from class controllerData .
+    public List<String> showListTrip(int numbers , String mood ,String tripType){
         List<String> list = new ArrayList<String>();
+        // get budget ..
         numbers = controllerData.getBudget();
-        status = controllerData.getMood();
-        typesList = controllerData.getTypes();
-        if((numbers >0 && numbers <=100) && (status.equals("public")) && (typesList.equals("null"))){
+        // get mood .
+        boolean check = checkMood() ;
+        // get tripTypes
+        boolean chekType = checkTypes();
+
+        // compare for check and checkType is true or not .
+        if((numbers >0 && numbers <=100) && (check == true) && (chekType == true) ){
             list.add("arguments 1 ");
             list.add("arguments 2 ");
             list.add("arguments 3 ");
             list.add("arguments 4 ");
         }
-        else if((numbers >100 && numbers <=200) && (status.equals("happy")) && (typesList.equals("love"))){
+        else if((numbers >100 && numbers <=200) && (check == true) && ( chekType == false )){
             list.add("arguments 5 ");
             list.add("arguments 6 ");
             list.add("arguments 7 ");
             list.add("arguments 8 ");
         }
 
-        else if((numbers >200 && numbers <=300) && (status.equals("happy")) && (typesList.equals("love"))){
+        else if((numbers >100 && numbers <=200) && (check == false) && ( chekType == true )){
             list.add("arguments 9 ");
             list.add("arguments 10 ");
             list.add("arguments 11 ");
-            list.add("arguments 12");
+            list.add("arguments 12 ");
         }
-        else if((numbers >300 ) && (status.equals("happy")) && (typesList.equals("love"))){
+
+        else if((numbers >100 && numbers <=200) && (check == false) && ( chekType == false )){
             list.add("arguments 13 ");
             list.add("arguments 14 ");
             list.add("arguments 15 ");
             list.add("arguments 16 ");
         }
-
 
         else {
             list.add("null");
@@ -175,7 +207,7 @@ public class Controller{
 
     //This method w'be take three arguments -> budget and mood and triptype
     //After that , it's should filtered and show list result ..
-    public void randomResult(ActionEvent actionEvent) {
+    public void randomResult(ActionEvent actionEvent)  {
         //Here call setter methods ..
         setValueInfo();
         System.out.println("Budget : " + + controllerData.getBudget() + "  And u Mood : -> " + controllerData.getMood() + " " + controllerData.getTypes());
@@ -190,3 +222,16 @@ public class Controller{
 }
 
 }
+//        String strMood = publicId.getText();
+//        controllerData.setMood(strMood);
+
+//        moodGroup.selectedToggleProperty().addListener(
+//                (ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) -> {
+//                    if (moodGroup.getSelectedToggle() != null) {
+//                        String s = moodGroup.getSelectedToggle().getUserData().toString();
+////                            controllerData.setMood(s);
+//                        System.out.println(moodGroup.getSelectedToggle().getUserData().toString());
+//
+//                        System.out.println(1);
+//                    }
+//                });
